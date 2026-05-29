@@ -1,0 +1,74 @@
+// Bipolar Factory — Database Schema
+// This file defines the structure of all data stored in PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Stores all ready-made software products we sell
+model Product {
+  id            String   @id @default(cuid())
+  name          String   @unique
+  humanLabel    String   // Plain-English category label shown to visitors
+  description   String
+  featuresArray String   // Stored as JSON string for SQLite
+  siteUrl       String?  // Link to product's own website if available
+  accentColor   String   @default("#FF0066") // Pink for products
+  iconSlug      String?  // Icon identifier for UI
+  sortOrder     Int      @default(0)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("products")
+}
+
+// Stores real project stories that prove our work
+model CaseStudy {
+  id             String   @id @default(cuid())
+  clientName     String
+  projectTitle   String
+  humanBadge     String   // Short, ALL-CAPS badge like "AUTOMATED VOTE COUNTING"
+  storyParagraph String   // Plain-English narrative of what was built and why
+  statsJson      String   // Stored as JSON string for SQLite
+  telemetryFact  String   // Fun fact shown in the status log on hover
+  sortOrder      Int      @default(0)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("case_studies")
+}
+
+// Stores every message sent through the contact form
+model Inquiry {
+  id               String        @id @default(cuid())
+  projectObjective String        // What they want to build / which dropdown option
+  email            String
+  message          String?       // Optional extra detail
+  timestamp        DateTime      @default(now())
+  status           String        @default("NEW") // Was enum
+  ipAddress        String?       // Stored hashed for spam prevention
+  userAgent        String?
+
+  @@map("inquiries")
+}
+
+// Records what parts of the site visitors find most interesting
+model TelemetryLog {
+  id          String   @id @default(cuid())
+  eventType   String   // "hover" or "click"
+  elementId   String   // Which product/case/section they interacted with
+  elementName String   // Human-readable name of the element
+  sessionId   String?  // Anonymous browser session ID
+  timestamp   DateTime @default(now())
+
+  @@index([elementId])
+  @@index([timestamp])
+  @@map("telemetry_logs")
+}
