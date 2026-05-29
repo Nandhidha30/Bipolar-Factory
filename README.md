@@ -85,8 +85,6 @@ cd frontend
 npx serve public -p 3000
 ```
 
-🌐 **View the website:** Open [http://localhost:3000](http://localhost:3000) in your browser. (Alternatively, just double-click `frontend/public/index.html` to open it as a local file!)
-
 ---
 
 ## 📁 Folder Structure
@@ -137,7 +135,6 @@ Add these to your `backend/.env` file:
 | `DATABASE_URL` | Connection string for the database | `file:./dev.db` |
 | `PORT` | API server port | `4000` |
 | `NODE_ENV` | Environment context | `development` |
-| `ALLOWED_ORIGINS` | Comma-separated list of allowed frontend URLs | `http://localhost:3000` |
 
 ---
 *Built by Bipolar Factory — Coimbatore, India.*
