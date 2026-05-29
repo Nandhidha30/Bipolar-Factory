@@ -111,24 +111,20 @@ bipolar-factory/
 
 ## 🚀 Deployment
 
-The app is built to split seamlessly across static and server environments in production.
+Both the frontend and backend are designed to be easily deployed on **Render**.
 
-### 1. Database (Neon PostgreSQL)
-Before deploying, you must switch from SQLite to PostgreSQL.
-- Change `provider = "sqlite"` to `provider = "postgresql"` in `backend/prisma/schema.prisma`.
-- Create a free Postgres database on [Neon](https://neon.tech/).
-- Update your `.env` with the new `DATABASE_URL`.
+### 1. Backend (Render Web Service)
+- Deploy as a **Web Service** on [Render](https://bipolar-factory-backend.onrender.com).
+- **Root Directory:** `backend`
+- **Build Command:** `npm install && npx prisma generate && npx prisma db push`
+- **Start Command:** `node server.js`
+- **Environment Variables:** Add `DATABASE_URL=file:./dev.db`, `NODE_ENV=production`, and `ALLOWED_ORIGINS` (your frontend URL, added after step 3).
 
-### 2. Backend (Render)
-- Deploy the `backend` folder as a Web Service on [Render](https://render.com/).
-- Set the Build Command: `npm install && npx prisma generate && npx prisma db push`
-- Set the Start Command: `node server.js`
-- Ensure you add `DATABASE_URL`, `NODE_ENV=production`, and `ALLOWED_ORIGINS` to the Render environment variables.
-
-### 3. Frontend (Vercel)
-- Deploy the `frontend` directory directly to [Vercel](https://vercel.com/).
+### 2. Frontend (Render Static Site)
+- Deploy as a **Static Site** on [Render](https://bipolar-factory-33lt.onrender.com).
+- **Root Directory:** `frontend/public`
 - Before deploying, update `frontend/public/config.js` to point to your new Render API URL.
-- Update your Render `ALLOWED_ORIGINS` to include your Vercel URL.
+- Once deployed, update your backend's `ALLOWED_ORIGINS` to include your new static site URL.
 
 ---
 
